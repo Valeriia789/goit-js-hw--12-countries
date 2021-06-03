@@ -1,6 +1,7 @@
 import debounce from 'lodash.debounce';
 import './sass/main.scss';
 import API from './js/fetchCountries.js';
+import getFullList from './js/getCountries.js';
 import countryCardTpl from './templates/countryCardTpl.hbs';
 import countriesListTpl from './templates/countries-list.hbs';
 import onFetchError from './js/pnotify';
@@ -12,6 +13,8 @@ const refs = {
   listContainer: document.querySelector('.js-countries-list'),
 };
 
+createFullList();
+
 refs.searchInput.addEventListener('input', debounce(onSearch, 500), { capture: true });
 
 function onSearch (event) {
@@ -20,6 +23,10 @@ function onSearch (event) {
   clearCoutriesList();
 
   const searchQuery = refs.searchInput.value;
+
+  if (searchQuery === '') {
+    createFullList();
+  }
 
   API.fetchCountries(searchQuery)
     .then(appendCountriesMarkup)
@@ -57,3 +64,19 @@ function clearCoutryCard () {
 function clearCoutriesList () {
   refs.listContainer.innerHTML = '';
 }
+
+function createFullList() {
+  getFullList.getCountries().then(countries => {
+    const allCountriesList = countries.map(country => {
+      const listEl = document.createElement('li')
+      const listElText = document.createElement('p')
+      listEl.classList.add('countries-list-item')
+      listEl.appendChild(listElText)
+      listElText.textContent = country.name
+    
+      return listEl
+    })
+    refs.listContainer.append(...allCountriesList)
+    });
+}
+
