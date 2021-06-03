@@ -5,4 +5,4 @@ const getCountries = async () => {
   return countries;
 };
 
-export default {getCountries}
+export default { getCountries };

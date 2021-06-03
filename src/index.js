@@ -65,18 +65,17 @@ function clearCoutriesList () {
   refs.listContainer.innerHTML = '';
 }
 
-function createFullList() {
+function createFullList () {
   getFullList.getCountries().then(countries => {
     const allCountriesList = countries.map(country => {
-      const listEl = document.createElement('li')
-      const listElText = document.createElement('p')
-      listEl.classList.add('countries-list-item')
-      listEl.appendChild(listElText)
-      listElText.textContent = country.name
-    
-      return listEl
-    })
-    refs.listContainer.append(...allCountriesList)
-    });
-}
+      const listEl = document.createElement('li');
+      const listElText = document.createElement('p');
+      listEl.classList.add('countries-list-item');
+      listEl.appendChild(listElText);
+      listElText.textContent = country.name;
 
+      return listEl;
+    });
+    refs.listContainer.append(...allCountriesList);
+  });
+}
