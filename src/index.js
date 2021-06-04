@@ -13,7 +13,7 @@ const refs = {
   listContainer: document.querySelector('.js-countries-list'),
 };
 
-createFullList();
+// createFullList();
 
 refs.searchInput.addEventListener('input', debounce(onSearch, 500), { capture: true });
 
@@ -24,9 +24,14 @@ function onSearch (event) {
 
   const searchQuery = refs.searchInput.value;
 
-  if (searchQuery === '') {
-    createFullList();
+  if (searchQuery.trim() === '') {
+    onFetchError();
+    return;
   }
+
+  // if (searchQuery === '') {
+  //   createFullList();
+  // }
 
   API.fetchCountries(searchQuery)
     .then(appendCountriesMarkup)
@@ -65,17 +70,17 @@ function clearCoutriesList () {
   refs.listContainer.innerHTML = '';
 }
 
-function createFullList () {
-  getFullList.getCountries().then(countries => {
-    const allCountriesList = countries.map(country => {
-      const listEl = document.createElement('li');
-      const listElText = document.createElement('p');
-      listEl.classList.add('countries-list-item');
-      listEl.appendChild(listElText);
-      listElText.textContent = country.name;
+// function createFullList () {
+//   getFullList.getCountries().then(countries => {
+//     const allCountriesList = countries.map(country => {
+//       const listEl = document.createElement('li');
+//       const listElText = document.createElement('p');
+//       listEl.classList.add('countries-list-item');
+//       listEl.appendChild(listElText);
+//       listElText.textContent = country.name;
 
-      return listEl;
-    });
-    refs.listContainer.append(...allCountriesList);
-  });
-}
+//       return listEl;
+//     });
+//     refs.listContainer.append(...allCountriesList);
+//   });
+// }
