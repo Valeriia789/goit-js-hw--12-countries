@@ -1,7 +1,7 @@
 import debounce from 'lodash.debounce';
 import './sass/main.scss';
 import API from './js/fetchCountries.js';
-import getFullList from './js/getCountries.js';
+// import getFullList from './js/getCountries.js';
 import countryCardTpl from './templates/countryCardTpl.hbs';
 import countriesListTpl from './templates/countries-list.hbs';
 import onFetchError from './js/pnotify';
@@ -20,12 +20,11 @@ refs.searchInput.addEventListener('input', debounce(onSearch, 500), { capture: t
 function onSearch (event) {
   event.preventDefault();
   clearCoutryCard();
-  clearCoutriesList();
+  clearCountriesList();
 
-  const searchQuery = refs.searchInput.value;
+  const searchQuery = refs.searchInput.value.trim();
 
-  if (searchQuery.trim() === '') {
-    onFetchError();
+  if (!searchQuery) {
     return;
   }
 
@@ -66,7 +65,7 @@ function clearCoutryCard () {
   refs.cardContainer.innerHTML = '';
 }
 
-function clearCoutriesList () {
+function clearCountriesList () {
   refs.listContainer.innerHTML = '';
 }
 
